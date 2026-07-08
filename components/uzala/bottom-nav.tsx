@@ -2,12 +2,15 @@
 
 import { House, Calendar, Plus, LayoutGrid } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { CreateItemSheet } from './create-item-sheet'
 
 export function BottomNav() {
   const [hidden, setHidden] = useState(false)
   const [sheetOpen, setSheetOpen] = useState(false)
   const lastY = useRef(0)
+  const pathname = usePathname()
 
   useEffect(() => {
     lastY.current = window.scrollY
@@ -28,6 +31,9 @@ export function BottomNav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const isHome = pathname === '/'
+  const isCalendar = pathname === '/calendario'
+
   return (
     <>
       <nav className="pointer-events-none fixed inset-x-0 bottom-0 z-20 flex justify-center px-5 pb-6">
@@ -38,26 +44,30 @@ export function BottomNav() {
               : 'translate-y-0 scale-100 opacity-100'
           }`}
         >
-          <button
-            type="button"
-            className="flex flex-col items-center gap-1 text-primary transition-transform active:scale-90"
+          <Link
+            href="/"
+            className={`flex flex-col items-center gap-1 transition-transform active:scale-90 ${
+              isHome ? 'text-primary' : 'text-foreground/70'
+            }`}
           >
             <House
               className="size-6"
               strokeWidth={2}
-              fill="currentColor"
-              fillOpacity={0.15}
+              fill={isHome ? 'currentColor' : 'none'}
+              fillOpacity={isHome ? 0.15 : 0}
             />
             <span className="text-xs font-medium">Inicio</span>
-          </button>
+          </Link>
 
-          <button
-            type="button"
-            className="flex flex-col items-center gap-1 text-foreground/70 transition-transform active:scale-90"
+          <Link
+            href="/calendario"
+            className={`flex flex-col items-center gap-1 transition-transform active:scale-90 ${
+              isCalendar ? 'text-primary' : 'text-foreground/70'
+            }`}
           >
             <Calendar className="size-6" strokeWidth={1.8} />
             <span className="text-xs font-medium">Calendario</span>
-          </button>
+          </Link>
 
           <div className="flex w-14 justify-center">
             <button

@@ -4,11 +4,15 @@ import { useState } from 'react'
 import { Plus, ListChecks, Circle } from 'lucide-react'
 import { useAdvancedActivities } from '@/hooks/use-advanced-activities'
 import { parseQuickCapture } from '@/lib/quick-capture-parser'
-import type { Pendiente, ItemType } from '@/lib/types'
+import type { Pendiente } from '@/lib/types'
 
-export function GreetingCard() {
+interface Props {
+  filter: 'actividades' | 'pendientes'
+  onFilterChange: (f: 'actividades' | 'pendientes') => void
+}
+
+export function GreetingCard({ filter, onFilterChange }: Props) {
   const [text, setText] = useState('')
-  const [filter, setFilter] = useState<'actividades' | 'pendientes'>('actividades')
   const addItem = useAdvancedActivities((s) => s.addItem)
 
   function handleSubmit() {
@@ -16,11 +20,6 @@ export function GreetingCard() {
     if (!title) return
 
     const parsed = parseQuickCapture(title)
-
-    const mappedType: ItemType =
-      parsed.type === 'por_surtir' || parsed.type === 'habito' || parsed.type === 'nota' || parsed.type === 'proveedor'
-        ? 'pendiente'
-        : parsed.type
 
     const item: Pendiente = {
       id: crypto.randomUUID(),
@@ -33,7 +32,7 @@ export function GreetingCard() {
       scheduledDate: parsed.scheduledDate,
     }
 
-    if (mappedType === 'recordatorio') {
+    if (parsed.type === 'recordatorio') {
       addItem({
         ...item,
         type: 'recordatorio',
@@ -78,7 +77,7 @@ export function GreetingCard() {
       <div className="mt-4 flex gap-3">
         <button
           type="button"
-          onClick={() => setFilter('actividades')}
+          onClick={() => onFilterChange('actividades')}
           className={`flex flex-1 items-center justify-center gap-2 rounded-full py-3 text-[0.95rem] font-semibold transition-transform active:scale-[0.98] ${
             filter === 'actividades'
               ? 'glow-teal bg-primary text-primary-foreground'
@@ -90,7 +89,7 @@ export function GreetingCard() {
         </button>
         <button
           type="button"
-          onClick={() => setFilter('pendientes')}
+          onClick={() => onFilterChange('pendientes')}
           className={`flex flex-1 items-center justify-center gap-2 rounded-full py-3 text-[0.95rem] font-semibold transition-transform active:scale-[0.98] ${
             filter === 'pendientes'
               ? 'glow-teal bg-primary text-primary-foreground'
