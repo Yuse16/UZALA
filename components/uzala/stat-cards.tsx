@@ -37,14 +37,14 @@ export function StatCards() {
       <StatCard
         icon={Calendar}
         title="Hoy"
-        value="4"
+        value="0"
         unit="tareas"
         note="prioridad"
       />
       <StatCard
         icon={Zap}
         title="Urgentes"
-        value="2"
+        value="0"
         unit="pendientes"
         note="revisar"
       />

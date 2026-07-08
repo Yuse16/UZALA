@@ -1,10 +1,8 @@
 import { ChevronRight } from 'lucide-react'
 
-const items = [
-  { id: 1, title: 'Llamar proveedor', time: '10:00', color: 'bg-priority-teal' },
-  { id: 2, title: 'Revisar inventario', time: '13:30', color: 'bg-priority-orange' },
-  { id: 3, title: 'Estudiar inglés', time: '18:00', color: 'bg-priority-violet' },
-]
+const items: {
+  id: number; title: string; time: string; color: string
+}[] = []
 
 export function UpcomingList() {
   return (

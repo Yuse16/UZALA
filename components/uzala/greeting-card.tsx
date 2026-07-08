@@ -4,7 +4,7 @@ export function GreetingCard() {
   return (
     <section className="glass glow-border rounded-3xl p-5">
       <h1 className="text-[1.75rem] font-semibold leading-tight tracking-tight text-foreground text-balance">
-        Hola, Jorge
+        Hola
       </h1>
       <p className="mt-1 text-[0.95rem] text-muted-foreground">
         ¿Qué necesitas recordar hoy?
