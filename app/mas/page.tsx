@@ -30,10 +30,10 @@ const SECTIONS = [
     desc: 'Contactos y productos que surten',
   },
   {
-    href: '#',
+    href: '/mas/notas',
     icon: <FileText className="size-5" />,
     label: 'Notas',
-    desc: 'Disponible próximamente',
+    desc: 'Notas libres y rápidas',
   },
 ]
 

@@ -17,8 +17,9 @@ import { ReminderForm } from './forms/reminder-form'
 import { HabitForm } from './forms/habit-form'
 import { RestockForm } from './forms/restock-form'
 import { ProviderForm } from './forms/provider-form'
+import { NoteForm } from './forms/note-form'
 
-type Tab = 'menu' | 'actividad' | 'pendiente' | 'recordatorio' | 'habito' | 'por_surtir' | 'proveedor'
+type Tab = 'menu' | 'actividad' | 'pendiente' | 'recordatorio' | 'habito' | 'por_surtir' | 'proveedor' | 'nota'
 
 const ICON_CLASS = 'size-5'
 
@@ -60,10 +61,10 @@ const OPTIONS = [
     desc: 'Contacto y productos que surte',
   },
   {
-    key: 'placeholder-nota' as const,
+    key: 'nota' as const,
     icon: <FileText className={ICON_CLASS} />,
     label: 'Nota',
-    desc: 'Disponible próximamente',
+    desc: 'Notas libres y rápidas',
   },
 ]
 
@@ -92,6 +93,7 @@ export function CreateItemSheet({ open, onOpenChange }: Props) {
             {tab === 'habito' && 'Nuevo hábito'}
             {tab === 'por_surtir' && 'Nuevo producto'}
             {tab === 'proveedor' && 'Nuevo proveedor'}
+            {tab === 'nota' && 'Nueva nota'}
           </SheetTitle>
         </SheetHeader>
 
@@ -129,6 +131,7 @@ export function CreateItemSheet({ open, onOpenChange }: Props) {
         {tab === 'habito' && <HabitForm onSuccess={handleSuccess} />}
         {tab === 'por_surtir' && <RestockForm onSuccess={handleSuccess} />}
         {tab === 'proveedor' && <ProviderForm onSuccess={handleSuccess} />}
+        {tab === 'nota' && <NoteForm onSuccess={handleSuccess} />}
       </SheetContent>
     </Sheet>
   )
