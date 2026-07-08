@@ -1,5 +1,9 @@
+'use client'
+
 import { Calendar, Zap } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import { getToday, getUrgent } from '@/hooks/use-advanced-activities'
+import { useStoreSnapshot } from '@/hooks/use-store-snapshot'
 
 function StatCard({
   icon: Icon,
@@ -32,19 +36,22 @@ function StatCard({
 }
 
 export function StatCards() {
+  const todayCount = useStoreSnapshot(() => getToday().length)
+  const urgentCount = useStoreSnapshot(() => getUrgent().length)
+
   return (
     <section className="flex gap-4">
       <StatCard
         icon={Calendar}
         title="Hoy"
-        value="0"
+        value={String(todayCount)}
         unit="tareas"
         note="prioridad"
       />
       <StatCard
         icon={Zap}
         title="Urgentes"
-        value="0"
+        value={String(urgentCount)}
         unit="pendientes"
         note="revisar"
       />
