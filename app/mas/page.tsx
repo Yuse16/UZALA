@@ -17,10 +17,10 @@ const SECTIONS = [
     desc: 'Gestiona tus hábitos diarios',
   },
   {
-    href: '#',
+    href: '/mas/por-surtir',
     icon: <ShoppingCart className="size-5" />,
     label: 'Por surtir',
-    desc: 'Disponible próximamente',
+    desc: 'Productos e insumos pendientes',
   },
   {
     href: '#',
