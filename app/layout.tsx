@@ -31,6 +31,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  viewportFit: 'cover',
 }
 
 export default function RootLayout({
@@ -39,8 +40,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" className={`${outfit.variable} bg-background`}>
-      <body className="font-sans antialiased">
+    <html lang="es" className={outfit.variable}>
+      <body className="uzala-bg font-sans antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
