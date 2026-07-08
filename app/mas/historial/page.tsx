@@ -1,12 +1,13 @@
 'use client'
 
-import { getHistory } from '@/hooks/use-advanced-activities'
-import { useStoreSnapshot } from '@/hooks/use-store-snapshot'
+import { useMemo } from 'react'
+import { useAdvancedActivities, getHistory } from '@/hooks/use-advanced-activities'
 import { isOverdue } from '@/lib/date-utils'
 import { ChevronRight } from 'lucide-react'
 
 export default function HistorialPage() {
-  const items = useStoreSnapshot(() => getHistory())
+  const storeItems = useAdvancedActivities((s) => s.items)
+  const items = useMemo(() => getHistory(), [storeItems])
 
   return (
     <main className="uzala-bg relative min-h-screen">

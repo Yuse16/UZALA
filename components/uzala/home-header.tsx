@@ -1,12 +1,13 @@
 'use client'
 
+import { useMemo } from 'react'
 import { Bell } from 'lucide-react'
 import { UzalaLogo } from './logo'
-import { getUrgent } from '@/hooks/use-advanced-activities'
-import { useStoreSnapshot } from '@/hooks/use-store-snapshot'
+import { useAdvancedActivities, getUrgent } from '@/hooks/use-advanced-activities'
 
 export function HomeHeader() {
-  const hasUrgent = useStoreSnapshot(() => getUrgent().length > 0)
+  const items = useAdvancedActivities((s) => s.items)
+  const hasUrgent = useMemo(() => getUrgent().length > 0, [items])
 
   return (
     <header className="relative flex items-center justify-center pt-2">

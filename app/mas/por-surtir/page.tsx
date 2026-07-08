@@ -1,8 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useAdvancedActivities } from '@/hooks/use-advanced-activities'
-import { useStoreSnapshot } from '@/hooks/use-store-snapshot'
 import { isOverdue } from '@/lib/date-utils'
 import { RestockForm } from '@/components/uzala/forms/restock-form'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
@@ -15,10 +14,9 @@ export default function PorSurtirPage() {
   const items = useAdvancedActivities((s) => s.items)
   const completeItem = useAdvancedActivities((s) => s.completeItem)
 
-  const restockItems = useStoreSnapshot(() =>
-    items.filter((item): item is RestockItem =>
-      item.type === 'por_surtir'
-    )
+  const restockItems = useMemo(
+    () => items.filter((item): item is RestockItem => item.type === 'por_surtir'),
+    [items]
   )
 
   const active = restockItems.filter(

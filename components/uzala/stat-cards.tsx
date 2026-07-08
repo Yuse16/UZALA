@@ -1,9 +1,9 @@
 'use client'
 
+import { useMemo } from 'react'
 import { Calendar, Zap } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import { getToday, getUrgent } from '@/hooks/use-advanced-activities'
-import { useStoreSnapshot } from '@/hooks/use-store-snapshot'
+import { useAdvancedActivities, getToday, getUrgent } from '@/hooks/use-advanced-activities'
 
 function StatCard({
   icon: Icon,
@@ -36,8 +36,9 @@ function StatCard({
 }
 
 export function StatCards() {
-  const todayCount = useStoreSnapshot(() => getToday().length)
-  const urgentCount = useStoreSnapshot(() => getUrgent().length)
+  const items = useAdvancedActivities((s) => s.items)
+  const todayCount = useMemo(() => getToday().length, [items])
+  const urgentCount = useMemo(() => getUrgent().length, [items])
 
   return (
     <section className="flex gap-4">

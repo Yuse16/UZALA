@@ -1,11 +1,12 @@
 'use client'
 
+import { useMemo } from 'react'
 import { ChevronRight } from 'lucide-react'
-import { getUpcoming } from '@/hooks/use-advanced-activities'
-import { useStoreSnapshot } from '@/hooks/use-store-snapshot'
+import { useAdvancedActivities, getUpcoming } from '@/hooks/use-advanced-activities'
 
 export function UpcomingList() {
-  const items = useStoreSnapshot(() => getUpcoming(3))
+  const storeItems = useAdvancedActivities((s) => s.items)
+  const items = useMemo(() => getUpcoming(3), [storeItems])
 
   return (
     <section>

@@ -1,8 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useAdvancedActivities, getByProvider } from '@/hooks/use-advanced-activities'
-import { useStoreSnapshot } from '@/hooks/use-store-snapshot'
 import { ProviderForm } from '@/components/uzala/forms/provider-form'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { ChevronRight, Phone, ExternalLink } from 'lucide-react'
@@ -14,10 +13,9 @@ export default function ProveedoresPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const items = useAdvancedActivities((s) => s.items)
 
-  const providers = useStoreSnapshot(() =>
-    items.filter((item): item is Provider =>
-      item.type === 'proveedor'
-    )
+  const providers = useMemo(
+    () => items.filter((item): item is Provider => item.type === 'proveedor'),
+    [items]
   )
 
   const selected = selectedId

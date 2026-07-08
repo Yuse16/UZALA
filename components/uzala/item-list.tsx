@@ -1,8 +1,8 @@
 'use client'
 
+import { useMemo } from 'react'
 import { ChevronRight } from 'lucide-react'
 import { useAdvancedActivities } from '@/hooks/use-advanced-activities'
-import { useStoreSnapshot } from '@/hooks/use-store-snapshot'
 import { isOverdue } from '@/lib/date-utils'
 import type { ItemType } from '@/lib/types'
 
@@ -13,7 +13,7 @@ interface Props {
 export function ItemList({ filter }: Props) {
   const items = useAdvancedActivities((s) => s.items)
 
-  const filtered = useStoreSnapshot(() => {
+  const filtered = useMemo(() => {
     const active = items.filter(
       (item) => item.status !== 'completado' && item.status !== 'omitido'
     )
@@ -23,7 +23,7 @@ export function ItemList({ filter }: Props) {
       )
     }
     return active.filter((item) => item.type === 'pendiente')
-  })
+  }, [items, filter])
 
   if (filtered.length === 0) {
     return (

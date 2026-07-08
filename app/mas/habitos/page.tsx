@@ -1,8 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useAdvancedActivities } from '@/hooks/use-advanced-activities'
-import { useStoreSnapshot } from '@/hooks/use-store-snapshot'
 import { HabitForm } from '@/components/uzala/forms/habit-form'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import type { Habit } from '@/lib/types'
@@ -23,10 +22,9 @@ export default function HabitosPage() {
   const items = useAdvancedActivities((s) => s.items)
   const updateItem = useAdvancedActivities((s) => s.updateItem)
 
-  const habits = useStoreSnapshot(() =>
-    items.filter((item): item is Habit =>
-      item.type === 'habito'
-    )
+  const habits = useMemo(
+    () => items.filter((item): item is Habit => item.type === 'habito'),
+    [items]
   )
 
   function todayStr() {
