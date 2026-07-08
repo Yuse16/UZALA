@@ -10,6 +10,7 @@ import type { Note } from '@/lib/types'
 export default function NotasPage() {
   const [showForm, setShowForm] = useState(false)
   const [editItem, setEditItem] = useState<Note | null>(null)
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
   const items = useAdvancedActivities((s) => s.items)
   const completeItem = useAdvancedActivities((s) => s.completeItem)
   const deleteItem = useAdvancedActivities((s) => s.deleteItem)
@@ -69,14 +70,14 @@ export default function NotasPage() {
                   <div className="flex shrink-0 items-center gap-1.5">
                     <button
                       type="button"
-                      onClick={() => deleteItem(note.id)}
+                      onClick={() => setConfirmDeleteId(note.id)}
                       className="flex size-6 items-center justify-center rounded-full text-foreground/30 transition-colors hover:text-destructive"
                     >
                       <Trash2 className="size-3.5" />
                     </button>
                     <button
                       type="button"
-                      onClick={(e) => { e.stopPropagation(); completeItem(note.id) }}
+                      onClick={() => completeItem(note.id)}
                       className="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-foreground/30 transition-colors hover:border-status-success"
                     />
                   </div>
@@ -110,7 +111,7 @@ export default function NotasPage() {
                   </span>
                   <button
                     type="button"
-                    onClick={() => deleteItem(note.id)}
+                    onClick={() => setConfirmDeleteId(note.id)}
                     className="flex size-6 shrink-0 items-center justify-center rounded-full text-foreground/30 transition-colors hover:text-destructive"
                   >
                     <Trash2 className="size-3.5" />
@@ -130,6 +131,31 @@ export default function NotasPage() {
           <NoteForm onSuccess={() => { setShowForm(false); setEditItem(null) }} editItem={editItem ?? undefined} />
         </SheetContent>
       </Sheet>
+
+      {confirmDeleteId && (
+        <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/40 px-5 pb-20">
+          <div className="glass w-full max-w-md rounded-3xl p-6 text-center">
+            <p className="text-base font-semibold text-foreground">¿Eliminar nota?</p>
+            <p className="mt-1 text-sm text-muted-foreground">Esta acción no se puede deshacer.</p>
+            <div className="mt-5 flex gap-3">
+              <button
+                type="button"
+                onClick={() => setConfirmDeleteId(null)}
+                className="flex-1 rounded-full border border-foreground/20 py-3 text-sm font-semibold text-foreground transition-transform active:scale-[0.98]"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={() => { deleteItem(confirmDeleteId); setConfirmDeleteId(null) }}
+                className="flex-1 rounded-full bg-destructive py-3 text-sm font-semibold text-white transition-transform active:scale-[0.98]"
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   )
 }

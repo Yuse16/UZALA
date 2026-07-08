@@ -15,6 +15,7 @@ interface Props {
 export function NoteForm({ onSuccess, editItem }: Props) {
   const [title, setTitle] = useState(editItem?.title ?? '')
   const [body, setBody] = useState(editItem?.body ?? editItem?.description ?? '')
+  const [showConfirm, setShowConfirm] = useState(false)
   const addItem = useAdvancedActivities((s) => s.addItem)
   const updateItem = useAdvancedActivities((s) => s.updateItem)
   const deleteItem = useAdvancedActivities((s) => s.deleteItem)
@@ -46,50 +47,78 @@ export function NoteForm({ onSuccess, editItem }: Props) {
   function handleDelete() {
     if (!editItem) return
     deleteItem(editItem.id)
+    setShowConfirm(false)
     onSuccess()
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="title">Título</Label>
-        <Input
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Título de la nota"
-          required
-        />
-      </div>
+    <>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="title">Título</Label>
+          <Input
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Título de la nota"
+            required
+          />
+        </div>
 
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="body">Contenido</Label>
-        <Textarea
-          id="body"
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
-          placeholder="Escribe tu nota aquí..."
-          rows={4}
-        />
-      </div>
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="body">Contenido</Label>
+          <Textarea
+            id="body"
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            placeholder="Escribe tu nota aquí..."
+            rows={4}
+          />
+        </div>
 
-      <div className="mt-2 flex gap-3">
-        {editItem && (
+        <div className="mt-2 flex gap-3">
+          {editItem && (
+            <button
+              type="button"
+              onClick={() => setShowConfirm(true)}
+              className="flex-1 rounded-full border border-destructive/40 py-3 text-sm font-semibold text-destructive transition-transform active:scale-[0.98]"
+            >
+              Eliminar nota
+            </button>
+          )}
           <button
-            type="button"
-            onClick={handleDelete}
-            className="flex-1 rounded-full border border-destructive/40 py-3 text-sm font-semibold text-destructive transition-transform active:scale-[0.98]"
+            type="submit"
+            className={`rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground transition-transform active:scale-[0.98] ${editItem ? 'flex-auto' : 'w-full'}`}
           >
-            Eliminar nota
+            {editItem ? 'Guardar cambios' : 'Agregar nota'}
           </button>
-        )}
-        <button
-          type="submit"
-          className={`rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground transition-transform active:scale-[0.98] ${editItem ? 'flex-auto' : 'w-full'}`}
-        >
-          {editItem ? 'Guardar cambios' : 'Agregar nota'}
-        </button>
-      </div>
-    </form>
+        </div>
+      </form>
+
+      {showConfirm && (
+        <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/40 px-5 pb-20">
+          <div className="glass w-full max-w-md rounded-3xl p-6 text-center">
+            <p className="text-base font-semibold text-foreground">¿Eliminar nota?</p>
+            <p className="mt-1 text-sm text-muted-foreground">Esta acción no se puede deshacer.</p>
+            <div className="mt-5 flex gap-3">
+              <button
+                type="button"
+                onClick={() => setShowConfirm(false)}
+                className="flex-1 rounded-full border border-foreground/20 py-3 text-sm font-semibold text-foreground transition-transform active:scale-[0.98]"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={handleDelete}
+                className="flex-1 rounded-full bg-destructive py-3 text-sm font-semibold text-white transition-transform active:scale-[0.98]"
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
