@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Outfit } from 'next/font/google'
+import { NotificationScheduler } from '@/components/uzala/notification-scheduler'
 import './globals.css'
 
 const outfit = Outfit({
@@ -44,6 +45,7 @@ export default function RootLayout({
       <body className="uzala-bg font-sans antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
+        <NotificationScheduler />
       </body>
     </html>
   )

@@ -2,6 +2,7 @@
 
 import { History, Repeat, ShoppingCart, User, FileText } from 'lucide-react'
 import Link from 'next/link'
+import { NotificationSettings } from '@/components/uzala/notification-settings'
 
 const SECTIONS = [
   {
@@ -41,6 +42,8 @@ export default function MasPage() {
     <main className="uzala-bg relative min-h-screen">
       <div className="mx-auto flex min-h-screen w-full max-w-md flex-col gap-4 px-5 pb-28 pt-[max(env(safe-area-inset-top),1.25rem)]">
         <h1 className="text-xl font-semibold text-foreground">Más</h1>
+
+        <NotificationSettings />
 
         <div className="glass rounded-3xl">
           {SECTIONS.map((section) => {
