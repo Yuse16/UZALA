@@ -46,6 +46,7 @@
   --color-priority-teal: var(--priority-teal);
   --color-priority-orange: var(--priority-orange);
   --color-priority-violet: var(--priority-violet);
+  --color-status-success: var(--status-success);
   --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -76,6 +77,8 @@
   --priority-teal: #16f2d0;
   --priority-orange: oklch(0.72 0.17 55);
   --priority-violet: oklch(0.65 0.18 285);
+  /* Status colors */
+  --status-success: #22c55e;
   --chart-1: #16f2d0;
   --chart-2: oklch(0.72 0.17 55);
   --chart-3: oklch(0.65 0.18 285);

@@ -33,6 +33,7 @@ export function BottomNav() {
 
   const isHome = pathname === '/'
   const isCalendar = pathname === '/calendario'
+  const isMas = pathname === '/mas'
 
   return (
     <>
@@ -80,13 +81,15 @@ export function BottomNav() {
             </button>
           </div>
 
-          <button
-            type="button"
-            className="flex flex-col items-center gap-1 text-foreground/70 transition-transform active:scale-90"
+          <Link
+            href="/mas"
+            className={`flex flex-col items-center gap-1 transition-transform active:scale-90 ${
+              isMas ? 'text-primary' : 'text-foreground/70'
+            }`}
           >
             <LayoutGrid className="size-6" strokeWidth={1.8} />
             <span className="text-xs font-medium">Más</span>
-          </button>
+          </Link>
         </div>
       </nav>
 

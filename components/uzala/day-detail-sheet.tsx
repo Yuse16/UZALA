@@ -8,6 +8,7 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet'
 import { useAdvancedActivities } from '@/hooks/use-advanced-activities'
+import { isOverdue } from '@/lib/date-utils'
 
 interface Props {
   date: string | null
@@ -43,33 +44,40 @@ export function DayDetailSheet({ date, onClose }: Props) {
           </p>
         ) : (
           <div className="flex flex-col">
-            {dayItems.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                className="flex w-full items-center gap-3.5 px-4 py-3 text-left transition-colors active:bg-foreground/5"
-              >
-                <span
-                  className={`size-3 shrink-0 rounded-full ${
-                    item.status === 'completado' ? 'bg-green-400' : 'bg-primary'
-                  }`}
-                />
-                <span className="flex-1 text-sm font-medium text-foreground">
-                  {item.title}
-                </span>
-                {item.scheduledDate && (
-                  <span className="text-xs text-muted-foreground">
-                    {new Date(item.scheduledDate).toLocaleTimeString('es-MX', {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
+            {dayItems.map((item) => {
+              const overdue = isOverdue(item.scheduledDate)
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  className="flex w-full items-center gap-3.5 px-4 py-3 text-left transition-colors active:bg-foreground/5"
+                >
+                  <span
+                    className={`size-3 shrink-0 rounded-full ${
+                      item.status === 'completado'
+                        ? 'bg-status-success'
+                        : overdue
+                        ? 'bg-destructive'
+                        : 'bg-primary'
+                    }`}
+                  />
+                  <span className="flex-1 text-sm font-medium text-foreground">
+                    {item.title}
                   </span>
-                )}
-                <span className="glass flex size-7 items-center justify-center rounded-full">
-                  <ChevronRight className="size-3.5 text-foreground/60" strokeWidth={2.2} />
-                </span>
-              </button>
-            ))}
+                  {item.scheduledDate && (
+                    <span className="text-xs text-muted-foreground">
+                      {new Date(item.scheduledDate).toLocaleTimeString('es-MX', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </span>
+                  )}
+                  <span className="glass flex size-7 items-center justify-center rounded-full">
+                    <ChevronRight className="size-3.5 text-foreground/60" strokeWidth={2.2} />
+                  </span>
+                </button>
+              )
+            })}
           </div>
         )}
       </SheetContent>

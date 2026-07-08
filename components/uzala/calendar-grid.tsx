@@ -3,8 +3,7 @@
 import { useMemo, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { DayDetailSheet } from './day-detail-sheet'
-import { useAdvancedActivities, getByDate } from '@/hooks/use-advanced-activities'
-import { useStoreSnapshot } from '@/hooks/use-store-snapshot'
+import { useAdvancedActivities } from '@/hooks/use-advanced-activities'
 import { isOverdue } from '@/lib/date-utils'
 
 const WEEKDAYS = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa']
@@ -113,7 +112,6 @@ export function CalendarGrid() {
                   isOverdue(item.scheduledDate)
               )
               const hasItems = dayItems.length > 0
-              const inPast = new Date(key) < new Date(todayStr)
 
               return (
                 <button
@@ -135,9 +133,9 @@ export function CalendarGrid() {
                     <span
                       className={`mt-0.5 size-1.5 rounded-full ${
                         allCompleted
-                          ? 'bg-green-400'
-                          : anyOverdue && inPast
-                          ? 'bg-red-400'
+                          ? 'bg-status-success'
+                          : anyOverdue
+                          ? 'bg-destructive'
                           : 'bg-primary'
                       }`}
                     />
