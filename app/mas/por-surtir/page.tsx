@@ -28,7 +28,7 @@ export default function PorSurtirPage() {
 
   return (
     <main className="uzala-bg relative min-h-screen">
-      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col gap-4 px-5 pb-28 pt-[max(env(safe-area-inset-top),1.25rem)]">
+      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col gap-4 px-5 pt-[max(env(safe-area-inset-top),1.25rem)]" style={{ paddingBottom: 'calc(7rem + env(safe-area-inset-bottom))' }}>
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-semibold text-foreground">Por surtir</h1>
           <button

@@ -11,7 +11,7 @@ export default function HistorialPage() {
 
   return (
     <main className="uzala-bg relative min-h-screen">
-      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col gap-4 px-5 pb-28 pt-[max(env(safe-area-inset-top),1.25rem)]">
+      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col gap-4 px-5 pt-[max(env(safe-area-inset-top),1.25rem)]" style={{ paddingBottom: 'calc(7rem + env(safe-area-inset-bottom))' }}>
         <h1 className="text-xl font-semibold text-foreground">Historial</h1>
 
         {items.length === 0 ? (

@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import { useAdvancedActivities } from '@/hooks/use-advanced-activities'
 import { NoteForm } from '@/components/uzala/forms/note-form'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
-import { ChevronRight, FileText } from 'lucide-react'
+import { Trash2 } from 'lucide-react'
 import type { Note } from '@/lib/types'
 
 export default function NotasPage() {
@@ -12,6 +12,7 @@ export default function NotasPage() {
   const [editItem, setEditItem] = useState<Note | null>(null)
   const items = useAdvancedActivities((s) => s.items)
   const completeItem = useAdvancedActivities((s) => s.completeItem)
+  const deleteItem = useAdvancedActivities((s) => s.deleteItem)
 
   const notes = useMemo(
     () => items.filter((item): item is Note => item.type === 'nota'),
@@ -25,7 +26,7 @@ export default function NotasPage() {
 
   return (
     <main className="uzala-bg relative min-h-screen">
-      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col gap-4 px-5 pb-28 pt-[max(env(safe-area-inset-top),1.25rem)]">
+      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col gap-4 px-5 pt-[max(env(safe-area-inset-top),1.25rem)]" style={{ paddingBottom: 'calc(7rem + env(safe-area-inset-bottom))' }}>
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-semibold text-foreground">Notas</h1>
           <button
@@ -65,11 +66,20 @@ export default function NotasPage() {
                       })}
                     </p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => completeItem(note.id)}
-                    className="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-foreground/30 transition-colors hover:border-status-success"
-                  />
+                  <div className="flex shrink-0 items-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => deleteItem(note.id)}
+                      className="flex size-6 items-center justify-center rounded-full text-foreground/30 transition-colors hover:text-destructive"
+                    >
+                      <Trash2 className="size-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); completeItem(note.id) }}
+                      className="flex size-6 shrink-0 items-center justify-center rounded-full border-2 border-foreground/30 transition-colors hover:border-status-success"
+                    />
+                  </div>
                 </div>
               </div>
             ))}
@@ -98,6 +108,13 @@ export default function NotasPage() {
                   <span className="flex-1 text-sm text-muted-foreground line-through">
                     {note.title}
                   </span>
+                  <button
+                    type="button"
+                    onClick={() => deleteItem(note.id)}
+                    className="flex size-6 shrink-0 items-center justify-center rounded-full text-foreground/30 transition-colors hover:text-destructive"
+                  >
+                    <Trash2 className="size-3.5" />
+                  </button>
                 </div>
               ))}
             </div>

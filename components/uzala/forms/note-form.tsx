@@ -17,29 +17,35 @@ export function NoteForm({ onSuccess, editItem }: Props) {
   const [body, setBody] = useState(editItem?.body ?? editItem?.description ?? '')
   const addItem = useAdvancedActivities((s) => s.addItem)
   const updateItem = useAdvancedActivities((s) => s.updateItem)
+  const deleteItem = useAdvancedActivities((s) => s.deleteItem)
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!title.trim()) return
 
-    const base = {
-      title: title.trim(),
-      body: body.trim() || title.trim(),
-      type: 'nota' as const,
-      status: 'pendiente' as const,
-      priority: 'media' as const,
-      createdAt: new Date().toISOString(),
-      origin: 'formulario' as const,
-    }
-
     if (editItem) {
-      updateItem(editItem.id, base)
+      updateItem(editItem.id, {
+        title: title.trim(),
+        body: body.trim() || title.trim(),
+      })
     } else {
       addItem({
-        ...base,
         id: crypto.randomUUID(),
+        title: title.trim(),
+        body: body.trim() || title.trim(),
+        type: 'nota',
+        status: 'pendiente',
+        priority: 'media',
+        createdAt: new Date().toISOString(),
+        origin: 'formulario',
       })
     }
+    onSuccess()
+  }
+
+  function handleDelete() {
+    if (!editItem) return
+    deleteItem(editItem.id)
     onSuccess()
   }
 
@@ -67,12 +73,23 @@ export function NoteForm({ onSuccess, editItem }: Props) {
         />
       </div>
 
-      <button
-        type="submit"
-        className="mt-2 w-full rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground transition-transform active:scale-[0.98]"
-      >
-        {editItem ? 'Guardar cambios' : 'Agregar nota'}
-      </button>
+      <div className="mt-2 flex gap-3">
+        {editItem && (
+          <button
+            type="button"
+            onClick={handleDelete}
+            className="flex-1 rounded-full border border-destructive/40 py-3 text-sm font-semibold text-destructive transition-transform active:scale-[0.98]"
+          >
+            Eliminar nota
+          </button>
+        )}
+        <button
+          type="submit"
+          className={`rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground transition-transform active:scale-[0.98] ${editItem ? 'flex-auto' : 'w-full'}`}
+        >
+          {editItem ? 'Guardar cambios' : 'Agregar nota'}
+        </button>
+      </div>
     </form>
   )
 }

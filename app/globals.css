@@ -99,8 +99,15 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    background-color: #012b2a;
+    min-height: 100dvh;
+    min-height: 100svh;
+  }
   body {
     @apply bg-background text-foreground;
+    min-height: 100dvh;
+    min-height: 100svh;
   }
 }
 

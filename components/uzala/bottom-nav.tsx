@@ -37,7 +37,7 @@ export function BottomNav() {
 
   return (
     <>
-      <nav className="pointer-events-none fixed inset-x-0 bottom-0 z-20 flex justify-center px-5 pb-6">
+      <nav className="pointer-events-none fixed inset-x-0 bottom-0 z-20 flex justify-center px-5" style={{ paddingBottom: 'calc(1.5rem + env(safe-area-inset-bottom))' }}>
         <div
           className={`glass pointer-events-auto relative flex w-full max-w-md items-center justify-between rounded-full px-8 py-3.5 transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1.4,0.36,1)] ${
             hidden
