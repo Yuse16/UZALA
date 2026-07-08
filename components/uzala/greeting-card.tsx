@@ -3,8 +3,7 @@
 import { useState } from 'react'
 import { Plus, ListChecks, Circle } from 'lucide-react'
 import { useAdvancedActivities } from '@/hooks/use-advanced-activities'
-import { parseQuickCapture } from '@/lib/quick-capture-parser'
-import type { Pendiente } from '@/lib/types'
+import type { Note } from '@/lib/types'
 
 interface Props {
   filter: 'actividades' | 'pendientes'
@@ -13,37 +12,32 @@ interface Props {
 
 export function GreetingCard({ filter, onFilterChange }: Props) {
   const [text, setText] = useState('')
+  const [toast, setToast] = useState<string | null>(null)
   const addItem = useAdvancedActivities((s) => s.addItem)
+
+  function showToast(msg: string) {
+    setToast(msg)
+    setTimeout(() => setToast(null), 2000)
+  }
 
   function handleSubmit() {
     const title = text.trim()
     if (!title) return
 
-    const parsed = parseQuickCapture(title)
-
-    const item: Pendiente = {
+    const note: Note = {
       id: crypto.randomUUID(),
-      title: parsed.title,
-      type: 'pendiente',
+      title,
+      body: title,
+      type: 'nota',
       status: 'pendiente',
-      priority: parsed.priority,
+      priority: 'media',
       createdAt: new Date().toISOString(),
       origin: 'captura_rapida',
-      scheduledDate: parsed.scheduledDate,
     }
 
-    if (parsed.type === 'recordatorio') {
-      addItem({
-        ...item,
-        type: 'recordatorio',
-        reminderDateTime: parsed.scheduledDate ?? new Date().toISOString(),
-        critical: false,
-        notifyBeforeMinutes: 5,
-      })
-    } else {
-      addItem(item)
-    }
+    addItem(note)
     setText('')
+    showToast('Nota guardada')
   }
 
   return (
@@ -73,6 +67,14 @@ export function GreetingCard({ filter, onFilterChange }: Props) {
           <Plus className="size-6" strokeWidth={2.4} />
         </button>
       </div>
+
+      {toast && (
+        <div className="mt-3 flex items-center justify-center">
+          <span className="rounded-full bg-primary/20 px-4 py-1.5 text-sm font-medium text-primary">
+            {toast}
+          </span>
+        </div>
+      )}
 
       <div className="mt-4 flex gap-3">
         <button

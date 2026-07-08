@@ -12,13 +12,17 @@ export function HomeContent() {
   const [filter, setFilter] = useState<'actividades' | 'pendientes'>('actividades')
 
   return (
-    <main className="uzala-bg relative min-h-screen">
-      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col gap-4 px-5 pb-28 pt-[max(env(safe-area-inset-top),1.25rem)]">
+    <main className="uzala-bg fixed inset-0 flex flex-col">
+      <div className="shrink-0 px-5 pt-[max(env(safe-area-inset-top),1.25rem)]">
         <HomeHeader />
-        <GreetingCard filter={filter} onFilterChange={setFilter} />
-        <StatCards />
-        <UpcomingList />
-        <ItemList filter={filter} />
+      </div>
+      <div className="flex-1 overflow-y-auto px-5 pb-28">
+        <div className="flex flex-col gap-4 pt-4">
+          <GreetingCard filter={filter} onFilterChange={setFilter} />
+          <StatCards />
+          <UpcomingList />
+          <ItemList filter={filter} />
+        </div>
       </div>
       <BottomNav />
     </main>
