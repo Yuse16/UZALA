@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { Plus, ListChecks, Circle } from 'lucide-react'
 import { useAdvancedActivities } from '@/hooks/use-advanced-activities'
+import { parseQuickCapture } from '@/lib/quick-capture-parser'
+import type { Pendiente, ItemType } from '@/lib/types'
 
 export function GreetingCard() {
   const [text, setText] = useState('')
@@ -12,15 +14,36 @@ export function GreetingCard() {
   function handleSubmit() {
     const title = text.trim()
     if (!title) return
-    addItem({
+
+    const parsed = parseQuickCapture(title)
+
+    const mappedType: ItemType =
+      parsed.type === 'por_surtir' || parsed.type === 'habito' || parsed.type === 'nota' || parsed.type === 'proveedor'
+        ? 'pendiente'
+        : parsed.type
+
+    const item: Pendiente = {
       id: crypto.randomUUID(),
-      title,
+      title: parsed.title,
       type: 'pendiente',
       status: 'pendiente',
-      priority: 'media',
+      priority: parsed.priority,
       createdAt: new Date().toISOString(),
       origin: 'captura_rapida',
-    })
+      scheduledDate: parsed.scheduledDate,
+    }
+
+    if (mappedType === 'recordatorio') {
+      addItem({
+        ...item,
+        type: 'recordatorio',
+        reminderDateTime: parsed.scheduledDate ?? new Date().toISOString(),
+        critical: false,
+        notifyBeforeMinutes: 5,
+      })
+    } else {
+      addItem(item)
+    }
     setText('')
   }
 
