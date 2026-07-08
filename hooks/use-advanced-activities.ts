@@ -139,6 +139,15 @@ export function getByDate(date: string) {
   )
 }
 
+export function getByProvider(providerId: string) {
+  return useAdvancedActivities.getState().items.filter(
+    (item) =>
+      item.type === 'por_surtir' &&
+      'supplierId' in item &&
+      item.supplierId === providerId
+  )
+}
+
 export function getHistory() {
   return [...useAdvancedActivities.getState().items].sort((a, b) => {
     const dateA = a.completedAt ?? a.createdAt

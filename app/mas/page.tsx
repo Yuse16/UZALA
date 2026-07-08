@@ -23,10 +23,10 @@ const SECTIONS = [
     desc: 'Productos e insumos pendientes',
   },
   {
-    href: '#',
+    href: '/mas/proveedores',
     icon: <User className="size-5" />,
     label: 'Proveedores',
-    desc: 'Disponible próximamente',
+    desc: 'Contactos y productos que surten',
   },
   {
     href: '#',
