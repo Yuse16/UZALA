@@ -1,0 +1,224 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  --color-priority-teal: var(--priority-teal);
+  --color-priority-orange: var(--priority-orange);
+  --color-priority-violet: var(--priority-violet);
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+  /* Deep turquoise / teal background */
+  --background: #012b2a;
+  --foreground: #ffffff;
+  /* Glass card */
+  --card: rgba(255, 255, 255, 0.1);
+  --card-foreground: #ffffff;
+  --popover: #013b38;
+  --popover-foreground: #ffffff;
+  /* Bright turquoise accent */
+  --primary: #16f2d0;
+  --primary-foreground: #012b2a;
+  --secondary: rgba(255, 255, 255, 0.12);
+  --secondary-foreground: #ffffff;
+  --muted: rgba(255, 255, 255, 0.08);
+  --muted-foreground: rgba(255, 255, 255, 0.7);
+  --accent: #16f2d0;
+  --accent-foreground: #012b2a;
+  --destructive: oklch(0.62 0.2 27);
+  --border: rgba(255, 255, 255, 0.18);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: #16f2d0;
+  /* Priority accent colors */
+  --priority-teal: #16f2d0;
+  --priority-orange: oklch(0.72 0.17 55);
+  --priority-violet: oklch(0.65 0.18 285);
+  --chart-1: #16f2d0;
+  --chart-2: oklch(0.72 0.17 55);
+  --chart-3: oklch(0.65 0.18 285);
+  --chart-4: oklch(0.55 0.1 168);
+  --chart-5: oklch(0.45 0.08 168);
+  --radius: 1rem;
+  --sidebar: #012b2a;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #16f2d0;
+  --sidebar-primary-foreground: #012b2a;
+  --sidebar-accent: rgba(255, 255, 255, 0.12);
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(255, 255, 255, 0.18);
+  --sidebar-ring: #16f2d0;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  /* Deep turquoise ambient background with teal glow */
+  .uzala-bg {
+    background:
+      radial-gradient(
+        90% 52% at 50% 5%,
+        rgba(22, 242, 208, 0.35) 0%,
+        rgba(22, 242, 208, 0.12) 30%,
+        transparent 58%
+      ),
+      radial-gradient(
+        68% 44% at 88% 28%,
+        rgba(22, 242, 208, 0.18) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        95% 80% at 12% 90%,
+        rgba(0, 77, 69, 0.6) 0%,
+        transparent 55%
+      ),
+      linear-gradient(
+        180deg,
+        #004d45 0%,
+        #003b36 42%,
+        #012b2a 100%
+      );
+  }
+
+  .glass {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      0 8px 32px rgba(1, 25, 24, 0.45);
+  }
+
+  .glow-teal {
+    box-shadow:
+      0 0 20px rgba(22, 242, 208, 0.55),
+      0 0 44px rgba(22, 242, 208, 0.35);
+  }
+
+  /* Animated premium glow traveling around the card border */
+  .glow-border {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .glow-border::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: conic-gradient(
+      from var(--glow-angle, 0deg),
+      transparent 0deg,
+      rgba(22, 242, 208, 0) 40deg,
+      rgba(22, 242, 208, 0.7) 90deg,
+      rgba(255, 255, 255, 0.35) 120deg,
+      rgba(22, 242, 208, 0) 170deg,
+      transparent 360deg
+    );
+    /* Mask so only the ring (border) shows, not the fill */
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    filter: blur(1px);
+    opacity: 0.9;
+    pointer-events: none;
+    z-index: -1;
+    animation: glow-rotate 11s linear infinite;
+  }
+
+  /* Soft ambient halo that follows the same rotation */
+  .glow-border::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--glow-angle, 0deg),
+      transparent 0deg,
+      rgba(22, 242, 208, 0) 60deg,
+      rgba(22, 242, 208, 0.45) 100deg,
+      rgba(22, 242, 208, 0) 150deg,
+      transparent 360deg
+    );
+    filter: blur(14px);
+    opacity: 0.55;
+    pointer-events: none;
+    z-index: -2;
+    animation: glow-rotate 11s linear infinite;
+  }
+}
+
+@property --glow-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes glow-rotate {
+  to {
+    --glow-angle: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-border::before,
+  .glow-border::after {
+    animation: none;
+  }
+}
