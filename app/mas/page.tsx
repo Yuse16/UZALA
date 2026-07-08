@@ -11,10 +11,10 @@ const SECTIONS = [
     desc: 'Elementos completados y archivados',
   },
   {
-    href: '#',
+    href: '/mas/habitos',
     icon: <Repeat className="size-5" />,
     label: 'Hábitos',
-    desc: 'Disponible próximamente',
+    desc: 'Gestiona tus hábitos diarios',
   },
   {
     href: '#',

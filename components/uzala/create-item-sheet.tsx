@@ -14,8 +14,9 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sh
 import { ActivityForm } from './forms/activity-form'
 import { PendienteForm } from './forms/pendiente-form'
 import { ReminderForm } from './forms/reminder-form'
+import { HabitForm } from './forms/habit-form'
 
-type Tab = 'menu' | 'actividad' | 'pendiente' | 'recordatorio'
+type Tab = 'menu' | 'actividad' | 'pendiente' | 'recordatorio' | 'habito'
 
 const ICON_CLASS = 'size-5'
 
@@ -39,10 +40,10 @@ const OPTIONS = [
     desc: 'Con alerta programada',
   },
   {
-    key: 'placeholder-habito' as const,
+    key: 'habito' as const,
     icon: <Repeat className={ICON_CLASS} />,
     label: 'Hábito',
-    desc: 'Disponible próximamente',
+    desc: 'Con días de repetición',
   },
   {
     key: 'placeholder-surtir' as const,
@@ -86,6 +87,7 @@ export function CreateItemSheet({ open, onOpenChange }: Props) {
             {tab === 'actividad' && 'Nueva actividad'}
             {tab === 'pendiente' && 'Nuevo pendiente'}
             {tab === 'recordatorio' && 'Nuevo recordatorio'}
+            {tab === 'habito' && 'Nuevo hábito'}
           </SheetTitle>
         </SheetHeader>
 
@@ -120,6 +122,7 @@ export function CreateItemSheet({ open, onOpenChange }: Props) {
         {tab === 'actividad' && <ActivityForm onSuccess={handleSuccess} />}
         {tab === 'pendiente' && <PendienteForm onSuccess={handleSuccess} />}
         {tab === 'recordatorio' && <ReminderForm onSuccess={handleSuccess} />}
+        {tab === 'habito' && <HabitForm onSuccess={handleSuccess} />}
       </SheetContent>
     </Sheet>
   )
