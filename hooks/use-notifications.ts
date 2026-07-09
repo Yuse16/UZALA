@@ -56,7 +56,7 @@ export async function sendLocalNotification(title: string, body?: string, tag?: 
 }
 
 export function useNotificationScheduler(
-  items: { id: string; title: string; scheduledDate?: string | null; status: string }[]
+  items: { id: string; title: string; scheduledDate?: string | null; status: string; notifyBeforeMinutes?: number }[]
 ) {
   const notifiedRef = useRef(new Set<string>())
 
@@ -66,13 +66,18 @@ export function useNotificationScheduler(
     for (const item of items) {
       if (item.status === 'completado' || !item.scheduledDate) continue
       const due = new Date(item.scheduledDate).getTime()
-      if (due <= now && !notifiedRef.current.has(item.id)) {
-        notifiedRef.current.add(item.id)
-        sendLocalNotification(
-          '🔔 Recordatorio UZALA',
-          item.title,
-          `uzala-item-${item.id}`
-        )
+
+      if (due <= now && !notifiedRef.current.has(`due-${item.id}`)) {
+        notifiedRef.current.add(`due-${item.id}`)
+        sendLocalNotification('🔔 UZALA', item.title, `uzala-due-${item.id}`)
+      }
+
+      if (item.notifyBeforeMinutes) {
+        const advanceTime = due - item.notifyBeforeMinutes * 60_000
+        if (advanceTime <= now && now < due && !notifiedRef.current.has(`advance-${item.id}`)) {
+          notifiedRef.current.add(`advance-${item.id}`)
+          sendLocalNotification('⏰ Se acerca', item.title, `uzala-advance-${item.id}`)
+        }
       }
     }
   }, [items])

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Plus, ListChecks, Circle } from 'lucide-react'
 import { useAdvancedActivities } from '@/hooks/use-advanced-activities'
+import { parseReminderText } from '@/lib/quick-capture-parser'
 import type { Note } from '@/lib/types'
 
 interface Props {
@@ -23,6 +24,26 @@ export function GreetingCard({ filter, onFilterChange }: Props) {
   function handleSubmit() {
     const title = text.trim()
     if (!title) return
+
+    const parsed = parseReminderText(title)
+    if (parsed.isReminder) {
+      addItem({
+        id: crypto.randomUUID(),
+        title: parsed.title,
+        type: 'recordatorio',
+        status: 'pendiente',
+        priority: parsed.priority,
+        createdAt: new Date().toISOString(),
+        origin: 'captura_rapida',
+        scheduledDate: parsed.scheduledDate,
+        reminderDateTime: parsed.scheduledDate ?? new Date().toISOString(),
+        critical: false,
+        notifyBeforeMinutes: parsed.notifyBeforeMinutes,
+      })
+      setText('')
+      showToast('Recordatorio creado')
+      return
+    }
 
     const note: Note = {
       id: crypto.randomUUID(),
