@@ -33,6 +33,7 @@ export function RestockForm({ onSuccess, editItem }: Props) {
     e.preventDefault()
     if (!title.trim()) return
 
+    const dueDateVal = dueDate ? new Date(dueDate).toISOString() : undefined
     const base = {
       title: title.trim(),
       type: 'por_surtir' as const,
@@ -42,7 +43,8 @@ export function RestockForm({ onSuccess, editItem }: Props) {
       origin: 'formulario' as const,
       quantity: quantity ? Number(quantity) : undefined,
       unit: unit.trim() || undefined,
-      dueDate: dueDate ? new Date(dueDate).toISOString() : undefined,
+      scheduledDate: dueDateVal,
+      dueDate: dueDateVal,
     }
 
     if (editItem) {

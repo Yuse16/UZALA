@@ -1,11 +1,14 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useAdvancedActivities, getHistory } from '@/hooks/use-advanced-activities'
 import { isOverdue } from '@/lib/date-utils'
 import { ChevronRight } from 'lucide-react'
+import { ItemDetailSheet } from '@/components/uzala/item-detail-sheet'
+import type { UzalaItem } from '@/lib/types'
 
 export default function HistorialPage() {
+  const [selectedItem, setSelectedItem] = useState<UzalaItem | null>(null)
   const storeItems = useAdvancedActivities((s) => s.items)
   const items = useMemo(() => getHistory(), [storeItems])
 
@@ -26,6 +29,7 @@ export default function HistorialPage() {
                 <button
                   key={item.id}
                   type="button"
+                  onClick={() => setSelectedItem(item)}
                   className="flex w-full items-center gap-3.5 px-5 py-3.5 text-left transition-colors active:bg-foreground/5"
                   style={
                     index !== 0
@@ -67,6 +71,8 @@ export default function HistorialPage() {
           </div>
         )}
       </div>
+
+      <ItemDetailSheet item={selectedItem} onClose={() => setSelectedItem(null)} />
     </main>
   )
 }

@@ -1,10 +1,13 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { ChevronRight } from 'lucide-react'
 import { useAdvancedActivities, getUpcoming } from '@/hooks/use-advanced-activities'
+import { ItemDetailSheet } from './item-detail-sheet'
+import type { UzalaItem } from '@/lib/types'
 
 export function UpcomingList() {
+  const [selectedItem, setSelectedItem] = useState<UzalaItem | null>(null)
   const storeItems = useAdvancedActivities((s) => s.items)
   const items = useMemo(() => getUpcoming(3), [storeItems])
 
@@ -23,6 +26,7 @@ export function UpcomingList() {
             <button
               key={item.id}
               type="button"
+              onClick={() => setSelectedItem(item)}
               className="flex w-full items-center gap-3.5 px-5 py-3.5 text-left transition-colors active:bg-foreground/5"
               style={
                 index !== 0
@@ -49,6 +53,8 @@ export function UpcomingList() {
           ))}
         </div>
       )}
+
+      <ItemDetailSheet item={selectedItem} onClose={() => setSelectedItem(null)} />
     </section>
   )
 }

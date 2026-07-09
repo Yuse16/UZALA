@@ -1,16 +1,18 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { ChevronRight } from 'lucide-react'
 import { useAdvancedActivities } from '@/hooks/use-advanced-activities'
 import { isOverdue } from '@/lib/date-utils'
-import type { ItemType } from '@/lib/types'
+import { ItemDetailSheet } from './item-detail-sheet'
+import type { ItemType, UzalaItem } from '@/lib/types'
 
 interface Props {
   filter: 'actividades' | 'pendientes'
 }
 
 export function ItemList({ filter }: Props) {
+  const [selectedItem, setSelectedItem] = useState<UzalaItem | null>(null)
   const items = useAdvancedActivities((s) => s.items)
 
   const filtered = useMemo(() => {
@@ -52,6 +54,7 @@ export function ItemList({ filter }: Props) {
             <button
               key={item.id}
               type="button"
+              onClick={() => setSelectedItem(item)}
               className="flex w-full items-center gap-3.5 px-5 py-3.5 text-left transition-colors active:bg-foreground/5"
               style={
                 index !== 0
@@ -84,6 +87,8 @@ export function ItemList({ filter }: Props) {
           )
         })}
       </div>
+
+      <ItemDetailSheet item={selectedItem} onClose={() => setSelectedItem(null)} />
     </section>
   )
 }

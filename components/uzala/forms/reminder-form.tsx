@@ -28,6 +28,7 @@ export function ReminderForm({ onSuccess }: Props) {
       priority: 'media',
       createdAt: new Date().toISOString(),
       origin: 'formulario',
+      scheduledDate: reminderDateTime,
       reminderDateTime,
       critical,
       notifyBeforeMinutes: 5,

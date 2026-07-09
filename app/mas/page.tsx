@@ -3,6 +3,7 @@
 import { History, Repeat, ShoppingCart, User, FileText } from 'lucide-react'
 import Link from 'next/link'
 import { NotificationSettings } from '@/components/uzala/notification-settings'
+import { BottomNav } from '@/components/uzala/bottom-nav'
 
 const SECTIONS = [
   {
@@ -46,14 +47,11 @@ export default function MasPage() {
         <NotificationSettings />
 
         <div className="glass rounded-3xl">
-          {SECTIONS.map((section) => {
-            const disabled = section.href === '#'
-            const Content = (
+          {SECTIONS.map((section) => (
+            <Link key={section.href} href={section.href}>
               <button
                 type="button"
-                className={`flex w-full items-center gap-3 px-5 py-4 text-left transition-colors active:bg-foreground/5 ${
-                  disabled ? 'opacity-50' : ''
-                }`}
+                className="flex w-full items-center gap-3 px-5 py-4 text-left transition-colors active:bg-foreground/5"
               >
                 <span className="flex size-10 items-center justify-center rounded-full bg-primary/15 text-primary">
                   {section.icon}
@@ -63,16 +61,11 @@ export default function MasPage() {
                   <span className="text-xs text-muted-foreground">{section.desc}</span>
                 </div>
               </button>
-            )
-            if (disabled) return <div key={section.label}>{Content}</div>
-            return (
-              <Link key={section.href} href={section.href}>
-                {Content}
-              </Link>
-            )
-          })}
+            </Link>
+          ))}
         </div>
       </div>
+      <BottomNav />
     </main>
   )
 }

@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { ChevronRight } from 'lucide-react'
 import {
   Sheet,
@@ -9,6 +10,8 @@ import {
 } from '@/components/ui/sheet'
 import { useAdvancedActivities } from '@/hooks/use-advanced-activities'
 import { isOverdue } from '@/lib/date-utils'
+import { ItemDetailSheet } from './item-detail-sheet'
+import type { UzalaItem } from '@/lib/types'
 
 interface Props {
   date: string | null
@@ -16,6 +19,7 @@ interface Props {
 }
 
 export function DayDetailSheet({ date, onClose }: Props) {
+  const [selectedDetailItem, setSelectedDetailItem] = useState<UzalaItem | null>(null)
   const items = useAdvancedActivities((s) => s.items)
   const dayItems = date
     ? items.filter(
@@ -32,7 +36,7 @@ export function DayDetailSheet({ date, onClose }: Props) {
     : ''
 
   return (
-    <Sheet open={!!date} onOpenChange={(v) => !v && onClose()}>
+    <Sheet open={!!date} onOpenChange={(v) => { if (!v) { onClose(); setSelectedDetailItem(null) } }}>
       <SheetContent side="bottom" className="rounded-t-3xl border-none pb-8">
         <SheetHeader>
           <SheetTitle>{formattedDate}</SheetTitle>
@@ -50,6 +54,7 @@ export function DayDetailSheet({ date, onClose }: Props) {
                 <button
                   key={item.id}
                   type="button"
+                  onClick={() => setSelectedDetailItem(item)}
                   className="flex w-full items-center gap-3.5 px-4 py-3 text-left transition-colors active:bg-foreground/5"
                 >
                   <span
@@ -81,6 +86,8 @@ export function DayDetailSheet({ date, onClose }: Props) {
           </div>
         )}
       </SheetContent>
+
+      <ItemDetailSheet item={selectedDetailItem} onClose={() => setSelectedDetailItem(null)} />
     </Sheet>
   )
 }

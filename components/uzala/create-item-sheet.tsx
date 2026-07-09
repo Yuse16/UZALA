@@ -103,15 +103,8 @@ export function CreateItemSheet({ open, onOpenChange }: Props) {
               <button
                 key={opt.key}
                 type="button"
-                onClick={() => {
-                  if (opt.key.startsWith('placeholder-')) return
-                  setTab(opt.key as Tab)
-                }}
-                className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-left transition-colors active:bg-foreground/5 ${
-                  opt.key.startsWith('placeholder-')
-                    ? 'opacity-50'
-                    : ''
-                }`}
+                onClick={() => setTab(opt.key as Tab)}
+                className="flex items-center gap-3 rounded-2xl px-4 py-3 text-left transition-colors active:bg-foreground/5"
               >
                 <span className="flex size-10 items-center justify-center rounded-full bg-primary/15 text-primary">
                   {opt.icon}
