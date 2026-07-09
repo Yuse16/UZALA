@@ -13,7 +13,7 @@ export function HomeContent() {
 
   return (
     <main className="uzala-bg fixed inset-0 flex flex-col">
-      <div className="glass shrink-0 px-5 pb-3 pt-[max(env(safe-area-inset-top),1.25rem)]">
+      <div className="shrink-0 px-5 pt-[max(env(safe-area-inset-top),1.25rem)]">
         <HomeHeader />
       </div>
       <div className="flex-1 overflow-y-auto px-5" style={{ paddingBottom: 'calc(8rem + env(safe-area-inset-bottom))' }}>
